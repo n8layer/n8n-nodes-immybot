@@ -50,6 +50,10 @@ export class Immybot implements INodeType {
 						name: 'Tag',
 						value: 'tags',
 					},
+					{
+						name: 'Tenant',
+						value: 'tenants',
+					},
 				],
 				default: 'tags',
 			},
@@ -219,6 +223,7 @@ export class Immybot implements INodeType {
 				required: true,
 				displayOptions: {
 					show: {
+						resource: ['tags'],
 						operation: ['create'],
 					},
 				},
@@ -231,6 +236,7 @@ export class Immybot implements INodeType {
 				type: 'string',
 				displayOptions: {
 					show: {
+						resource: ['tags'],
 						operation: ['update'],
 					},
 				},
@@ -243,6 +249,7 @@ export class Immybot implements INodeType {
 				type: 'string',
 				displayOptions: {
 					show: {
+						resource: ['tags'],
 						operation: ['create', 'update'],
 					},
 				},
@@ -255,6 +262,7 @@ export class Immybot implements INodeType {
 				type: 'options',
 				displayOptions: {
 					show: {
+						resource: ['tags'],
 						operation: ['create', 'update'],
 					},
 				},
@@ -1029,6 +1037,223 @@ export class Immybot implements INodeType {
 						description: 'Array of person IDs',
 					},
 				],
+			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: [
+							'tenants',
+						],
+					},
+				},
+				options: [
+					{
+						name: 'Create',
+						value: 'create',
+						action: 'Create a new tenant',
+						description: 'Create a new tenant',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/tenants',
+								body: {
+									ownerTenantId: '={{ $parameter.ownerTenantId }}',
+									name: '={{ $parameter.name }}',
+									slug: '={{ $parameter.slug }}',
+									parentTenantId: '={{ $parameter.parentTenantId }}',
+									isMsp: '={{ $parameter.isMsp }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Edit',
+						value: 'edit',
+						action: 'Edit a tenant',
+						description: 'Edit an existing tenant',
+						routing: {
+							request: {
+								method: 'PUT',
+								url: '=/tenants/{{ $parameter.id }}',
+								body: {
+									id: '={{ $parameter.id }}',
+									name: '={{ $parameter.name }}',
+									slug: '={{ $parameter.slug }}',
+									parentTenantId: '={{ $parameter.parentTenantId }}',
+									isMsp: '={{ $parameter.isMsp }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Bulk Delete',
+						value: 'bulkDelete',
+						action: 'Bulk delete tenants',
+						description: 'Bulk delete tenants',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/tenants/bulk-delete',
+								body: {
+									ids: '={{ JSON.parse($parameter.ids) }}',
+								},
+							},
+						},
+					},
+				],
+				default: 'create',
+			},
+			{
+				displayName: 'ID',
+				name: 'id',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['edit'],
+					},
+				},
+				default: undefined,
+				description: 'The ID of the tenant to edit',
+			},
+			{
+				displayName: 'Name',
+				name: 'name',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['edit'],
+					},
+				},
+				default: '',
+				description: 'The name of the tenant',
+			},
+			{
+				displayName: 'Slug',
+				name: 'slug',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['edit'],
+					},
+				},
+				default: '',
+				description: 'The slug (URL-friendly identifier) for the tenant',
+			},
+			{
+				displayName: 'Parent Tenant ID',
+				name: 'parentTenantId',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['edit'],
+					},
+				},
+				default: undefined,
+				description: 'The ID of the parent tenant (optional)',
+			},
+			{
+				displayName: 'Is MSP',
+				name: 'isMsp',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['edit'],
+					},
+				},
+				default: false,
+				description: 'Whether this tenant is a Managed Service Provider',
+			},
+			{
+				displayName: 'Owner Tenant ID',
+				name: 'ownerTenantId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['create'],
+					},
+				},
+				default: 1,
+				description: 'The ID of the owner tenant',
+			},
+			{
+				displayName: 'Name',
+				name: 'name',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['create'],
+					},
+				},
+				default: '',
+				description: 'The name of the tenant',
+			},
+			{
+				displayName: 'Slug',
+				name: 'slug',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['create'],
+					},
+				},
+				default: '',
+				description: 'The slug (URL-friendly identifier) for the tenant',
+			},
+			{
+				displayName: 'Parent Tenant ID',
+				name: 'parentTenantId',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['create'],
+					},
+				},
+				default: undefined,
+				description: 'The ID of the parent tenant (optional)',
+			},
+			{
+				displayName: 'Is MSP',
+				name: 'isMsp',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['create'],
+					},
+				},
+				default: false,
+				description: 'Whether this tenant is a Managed Service Provider',
+			},
+			{
+				displayName: 'IDs',
+				name: 'ids',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['bulkDelete'],
+					},
+				},
+				default: '[]',
+				description: 'Enter a JSON array of tenant IDs to delete (e.g. ["297", "298"])',
 			},
 		],
 	};
