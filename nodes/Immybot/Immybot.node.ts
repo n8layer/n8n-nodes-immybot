@@ -54,6 +54,10 @@ export class Immybot implements INodeType {
 						name: 'Tenant',
 						value: 'tenants',
 					},
+					{
+						name: 'User',
+						value: 'users',
+					},
 				],
 				default: 'tags',
 			},
@@ -1102,26 +1106,6 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Create Person',
-						value: 'createPerson',
-						action: 'Create a new person',
-						description: 'Create a new person in the tenant',
-						routing: {
-							request: {
-								method: 'POST',
-								url: '/persons',
-								body: {
-									id: 0,
-									firstName: '={{ $parameter.firstName }}',
-									lastName: '={{ $parameter.lastName }}',
-									emailAddress: '={{ $parameter.emailAddress }}',
-									tenantId: '={{ $parameter.tenantId }}',
-									azurePrincipalId: '={{ $parameter.azurePrincipalId }}',
-								},
-							},
-						},
-					},
-					{
 						name: 'Edit',
 						value: 'edit',
 						action: 'Edit a tenant',
@@ -1426,6 +1410,180 @@ export class Immybot implements INodeType {
 					},
 				],
 				default: 'getInventory',
+			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: [
+							'users',
+						],
+					},
+				},
+				options: [
+					{
+						name: 'Configure Technician',
+						value: 'configureTechnician',
+						action: 'Configure a technician',
+						description: 'Configure settings for an existing technician',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '=/users/{{ $parameter.userId }}',
+								body: {
+									id: '={{ $parameter.userId }}',
+									isAdmin: '={{ $parameter.isAdmin }}',
+									tenantId: '={{ $parameter.tenantId }}',
+									canManageCrossTenantDeployments: '={{ $parameter.canManageCrossTenantDeployments }}',
+									hasManagementAccess: '={{ $parameter.hasManagementAccess }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Create Person',
+						value: 'createPerson',
+						action: 'Create a new person',
+						description: 'Create a new person',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/persons',
+								body: {
+									id: 0,
+									firstName: '={{ $parameter.firstName }}',
+									lastName: '={{ $parameter.lastName }}',
+									emailAddress: '={{ $parameter.emailAddress }}',
+									tenantId: '={{ $parameter.tenantId }}',
+									azurePrincipalId: '={{ $parameter.azurePrincipalId }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Delete Technician',
+						value: 'deleteTechnician',
+						action: 'Delete a technician',
+						description: 'Delete a technician by user ID',
+						routing: {
+							request: {
+								method: 'DELETE',
+								url: '=/users/{{ $parameter.userId }}',
+							},
+						},
+					},
+					{
+						name: 'Delete Person',
+						value: 'deletePerson',
+						action: 'Delete a person',
+						description: 'Delete a person by person ID',
+						routing: {
+							request: {
+								method: 'DELETE',
+								url: '=/persons/{{ $parameter.personId }}',
+							},
+						},
+					},
+				],
+				default: 'configureTechnician',
+			},
+			{
+				displayName: 'User ID',
+				name: 'userId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['configureTechnician'],
+					},
+				},
+				default: '',
+				description: 'The ID of the user to configure',
+			},
+			{
+				displayName: 'Is Admin',
+				name: 'isAdmin',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['configureTechnician'],
+					},
+				},
+				default: true,
+				description: 'Whether the user should have admin privileges',
+			},
+			{
+				displayName: 'Tenant ID',
+				name: 'tenantId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['configureTechnician'],
+					},
+				},
+				default: 1,
+				description: 'The ID of the tenant this user belongs to',
+			},
+			{
+				displayName: 'Can Manage Cross-Tenant Deployments',
+				name: 'canManageCrossTenantDeployments',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['configureTechnician'],
+					},
+				},
+				default: false,
+				description: 'Whether the user can manage deployments across tenants',
+			},
+			{
+				displayName: 'Has Management Access',
+				name: 'hasManagementAccess',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['configureTechnician'],
+					},
+				},
+				default: true,
+				description: 'Whether the user has management access',
+			},
+			{
+				displayName: 'User ID',
+				name: 'userId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['deleteTechnician'],
+					},
+				},
+				default: '',
+				description: 'The ID of the technician to delete',
+			},
+			{
+				displayName: 'Person ID',
+				name: 'personId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['deletePerson'],
+					},
+				},
+				default: '',
+				description: 'The ID of the person to delete',
 			},
 		],
 	};
