@@ -1052,6 +1052,37 @@ export class Immybot implements INodeType {
 				},
 				options: [
 					{
+						name: 'Bulk Delete',
+						value: 'bulkDelete',
+						action: 'Bulk delete tenants',
+						description: 'Bulk delete tenants',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/tenants/bulk-delete',
+								body: {
+									ids: '={{ JSON.parse($parameter.ids) }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Convert to Technician',
+						value: 'convertToTechnician',
+						action: 'Convert a person to a technician',
+						description: 'Convert an existing person to a technician',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/users/create-from-person',
+								body: {
+									personId: '={{ $parameter.personId }}',
+									hasManagementAccess: '={{ $parameter.hasManagementAccess }}',
+								},
+							},
+						},
+					},
+					{
 						name: 'Create',
 						value: 'create',
 						action: 'Create a new tenant',
@@ -1066,6 +1097,26 @@ export class Immybot implements INodeType {
 									slug: '={{ $parameter.slug }}',
 									parentTenantId: '={{ $parameter.parentTenantId }}',
 									isMsp: '={{ $parameter.isMsp }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Create Person',
+						value: 'createPerson',
+						action: 'Create a new person',
+						description: 'Create a new person in the tenant',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/persons',
+								body: {
+									id: 0,
+									firstName: '={{ $parameter.firstName }}',
+									lastName: '={{ $parameter.lastName }}',
+									emailAddress: '={{ $parameter.emailAddress }}',
+									tenantId: '={{ $parameter.tenantId }}',
+									azurePrincipalId: '={{ $parameter.azurePrincipalId }}',
 								},
 							},
 						},
@@ -1090,17 +1141,14 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Bulk Delete',
-						value: 'bulkDelete',
-						action: 'Bulk delete tenants',
-						description: 'Bulk delete tenants',
+						name: 'Get Many',
+						value: 'getAll',
+						action: 'Get many tenants',
+						description: 'Get information about many tenants',
 						routing: {
 							request: {
-								method: 'POST',
-								url: '/tenants/bulk-delete',
-								body: {
-									ids: '={{ JSON.parse($parameter.ids) }}',
-								},
+								method: 'GET',
+								url: '/tenants',
 							},
 						},
 					},
@@ -1254,6 +1302,130 @@ export class Immybot implements INodeType {
 				},
 				default: '[]',
 				description: 'Enter a JSON array of tenant IDs to delete (e.g. ["297", "298"])',
+			},
+			{
+				displayName: 'First Name',
+				name: 'firstName',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The first name of the person',
+			},
+			{
+				displayName: 'Last Name',
+				name: 'lastName',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The last name of the person',
+			},
+			{
+				displayName: 'Email Address',
+				name: 'emailAddress',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The email address of the person',
+			},
+			{
+				displayName: 'Tenant ID',
+				name: 'tenantId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: 1,
+				description: 'The ID of the tenant this person belongs to',
+			},
+			{
+				displayName: 'Azure Principal ID',
+				name: 'azurePrincipalId',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The Azure Principal ID for the person (optional)',
+			},
+			{
+				displayName: 'Person ID',
+				name: 'personId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['convertToTechnician'],
+					},
+				},
+				default: '',
+				description: 'The ID of the person to convert to a technician',
+			},
+			{
+				displayName: 'Has Management Access',
+				name: 'hasManagementAccess',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['convertToTechnician'],
+					},
+				},
+				default: true,
+				description: 'Whether the technician has management access',
+			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: [
+							'computers',
+						],
+					},
+				},
+				options: [
+					{
+						name: 'Get Inventory',
+						value: 'getInventory',
+						action: 'Get all inventory',
+						description: 'Get all inventory',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/computers/inventory',
+							},
+						},
+					},
+				],
+				default: 'getInventory',
 			},
 		],
 	};
