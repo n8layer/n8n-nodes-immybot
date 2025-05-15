@@ -37,8 +37,29 @@ This node supports the following operations:
   - Deployment options (deployment type, offline behavior, etc.)
   - Email notifications
   - UI customization
-  - Target selection (computers, tenants, persons) 
+  - Target selection (computers, tenants, persons)
 
+### Computers
+- **Get Inventory**: Get all computer inventory
+- **Get Computers Paged**: Retrieve all computer details (paged)
+- **Get Agent Status**: Retrieve agent status for computers by user ID
+
+### Tenants
+- **Create**: Create a new tenant
+- **Update**: Update an existing tenant
+- **Get Many**: Get information about many tenants
+- **Bulk Delete**: Delete multiple tenants at once
+
+### Users
+- **Create User From Person**: Create a new user from an existing person
+- **Update**: Update settings for an existing user
+- **Delete**: Delete a user by user ID
+- **Get Users**: Retrieve a list of users
+
+### Persons
+- **Create Person**: Create a new person
+- **Delete Person**: Delete a person by person ID
+- **Get People**: Retrieve a list of people
 
 ## Credentials
 
