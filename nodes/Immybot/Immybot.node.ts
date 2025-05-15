@@ -43,6 +43,10 @@ export class Immybot implements INodeType {
 						value: 'maintenance',
 					},
 					{
+						name: 'Person',
+						value: 'persons',
+					},
+					{
 						name: 'Provider Link',
 						value: 'providerLinks',
 					},
@@ -214,6 +218,7 @@ export class Immybot implements INodeType {
 				required: true,
 				displayOptions: {
 					show: {
+						resource: ['tags'],
 						operation: ['getById', 'update', 'delete'],
 					},
 				},
@@ -1071,22 +1076,6 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Convert to Technician',
-						value: 'convertToTechnician',
-						action: 'Convert a person to a technician',
-						description: 'Convert an existing person to a technician',
-						routing: {
-							request: {
-								method: 'POST',
-								url: '/users/create-from-person',
-								body: {
-									personId: '={{ $parameter.personId }}',
-									hasManagementAccess: '={{ $parameter.hasManagementAccess }}',
-								},
-							},
-						},
-					},
-					{
 						name: 'Create',
 						value: 'create',
 						action: 'Create a new tenant',
@@ -1106,10 +1095,10 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Edit',
-						value: 'edit',
-						action: 'Edit a tenant',
-						description: 'Edit an existing tenant',
+						name: 'Update',
+						value: 'update',
+						action: 'Update a tenant',
+						description: 'Update an existing tenant',
 						routing: {
 							request: {
 								method: 'PUT',
@@ -1147,7 +1136,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['edit'],
+						operation: ['update'],
 					},
 				},
 				default: undefined,
@@ -1161,7 +1150,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['edit'],
+						operation: ['update'],
 					},
 				},
 				default: '',
@@ -1174,7 +1163,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['edit'],
+						operation: ['update'],
 					},
 				},
 				default: '',
@@ -1187,7 +1176,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['edit'],
+						operation: ['update'],
 					},
 				},
 				default: undefined,
@@ -1200,7 +1189,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['edit'],
+						operation: ['update'],
 					},
 				},
 				default: false,
@@ -1408,8 +1397,46 @@ export class Immybot implements INodeType {
 							},
 						},
 					},
+					{
+						name: 'Get Computers Paged',
+						value: 'getAllComputerDetails',
+						action: 'Get computers paged',
+						description: 'Retrieve all computer details (paged)',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/computers/paged',
+							},
+						},
+					},
+					{
+						name: 'Get Agent Status',
+						value: 'getAgentStatus',
+						action: 'Get agent status',
+						description: 'Retrieve agent status for computers by user ID',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/computers/agent-status',
+							},
+						},
+					},
 				],
 				default: 'getInventory',
+			},
+			{
+				displayName: 'User ID',
+				name: 'userId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getAgentStatus'],
+					},
+				},
+				default: '',
+				description: 'The user ID to filter computers by',
 			},
 			{
 				displayName: 'Operation',
@@ -1425,10 +1452,26 @@ export class Immybot implements INodeType {
 				},
 				options: [
 					{
-						name: 'Configure Technician',
-						value: 'configureTechnician',
-						action: 'Configure a technician',
-						description: 'Configure settings for an existing technician',
+						name: 'Create User From Person',
+						value: 'createFromPerson',
+						action: 'Create a user from a person',
+						description: 'Create a new user from an existing person',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/users/create-from-person',
+								body: {
+									personId: '={{ $parameter.personId }}',
+									hasManagementAccess: '={{ $parameter.hasManagementAccess }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Update a User',
+						value: 'update',
+						action: 'Update a user',
+						description: 'Update settings for an existing user',
 						routing: {
 							request: {
 								method: 'POST',
@@ -1444,30 +1487,10 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Create Person',
-						value: 'createPerson',
-						action: 'Create a new person',
-						description: 'Create a new person',
-						routing: {
-							request: {
-								method: 'POST',
-								url: '/persons',
-								body: {
-									id: 0,
-									firstName: '={{ $parameter.firstName }}',
-									lastName: '={{ $parameter.lastName }}',
-									emailAddress: '={{ $parameter.emailAddress }}',
-									tenantId: '={{ $parameter.tenantId }}',
-									azurePrincipalId: '={{ $parameter.azurePrincipalId }}',
-								},
-							},
-						},
-					},
-					{
-						name: 'Delete Technician',
+						name: 'Delete a User',
 						value: 'deleteTechnician',
-						action: 'Delete a technician',
-						description: 'Delete a technician by user ID',
+						action: 'Delete a user',
+						description: 'Delete a user by user ID',
 						routing: {
 							request: {
 								method: 'DELETE',
@@ -1476,33 +1499,33 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Delete Person',
-						value: 'deletePerson',
-						action: 'Delete a person',
-						description: 'Delete a person by person ID',
+						name: 'Get Users',
+						value: 'getUsersList',
+						action: 'Get users',
+						description: 'Retrieve a list of users',
 						routing: {
 							request: {
-								method: 'DELETE',
-								url: '=/persons/{{ $parameter.personId }}',
+								method: 'GET',
+								url: '/users',
 							},
 						},
 					},
 				],
-				default: 'configureTechnician',
+				default: 'getUsersList',
 			},
 			{
-				displayName: 'User ID',
+				displayName: 'Person ID',
 				name: 'userId',
 				type: 'number',
 				required: true,
 				displayOptions: {
 					show: {
 						resource: ['users'],
-						operation: ['configureTechnician'],
+						operation: ['update'],
 					},
 				},
 				default: '',
-				description: 'The ID of the user to configure',
+				description: 'The person ID to configure as a user',
 			},
 			{
 				displayName: 'Is Admin',
@@ -1511,10 +1534,10 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['users'],
-						operation: ['configureTechnician'],
+						operation: ['update'],
 					},
 				},
-				default: true,
+				default: false,
 				description: 'Whether the user should have admin privileges',
 			},
 			{
@@ -1525,7 +1548,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['users'],
-						operation: ['configureTechnician'],
+						operation: ['update'],
 					},
 				},
 				default: 1,
@@ -1538,7 +1561,8 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['users'],
-						operation: ['configureTechnician'],
+						operation: ['update'],
+						isAdmin: [false],
 					},
 				},
 				default: false,
@@ -1551,7 +1575,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['users'],
-						operation: ['configureTechnician'],
+						operation: ['update'],
 					},
 				},
 				default: true,
@@ -1579,6 +1603,174 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['users'],
+						operation: ['deletePerson'],
+					},
+				},
+				default: '',
+				description: 'The ID of the person to delete',
+			},
+			{
+				displayName: 'Person ID',
+				name: 'personId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['createFromPerson'],
+					},
+				},
+				default: '',
+				description: 'The ID of the person to create a user from',
+			},
+			{
+				displayName: 'Has Management Access',
+				name: 'hasManagementAccess',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['createFromPerson'],
+					},
+				},
+				default: true,
+				description: 'Whether the user should have management access',
+			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['persons'],
+					},
+				},
+				options: [
+					{
+						name: 'Create Person',
+						value: 'createPerson',
+						action: 'Create a new person',
+						description: 'Create a new person',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/persons',
+								body: {
+									id: 0,
+									firstName: '={{ $parameter.firstName }}',
+									lastName: '={{ $parameter.lastName }}',
+									emailAddress: '={{ $parameter.emailAddress }}',
+									tenantId: '={{ $parameter.tenantId }}',
+									azurePrincipalId: '={{ $parameter.azurePrincipalId }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Delete Person',
+						value: 'deletePerson',
+						action: 'Delete a person',
+						description: 'Delete a person by person ID',
+						routing: {
+							request: {
+								method: 'DELETE',
+								url: '=/persons/{{ $parameter.personId }}',
+							},
+						},
+					},
+					{
+						name: 'Get People',
+						value: 'getPeople',
+						action: 'Get people',
+						description: 'Retrieve a list of people',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/persons',
+							},
+						},
+					},
+				],
+				default: 'getPeople',
+			},
+			{
+				displayName: 'First Name',
+				name: 'firstName',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['persons'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The first name of the person',
+			},
+			{
+				displayName: 'Last Name',
+				name: 'lastName',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['persons'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The last name of the person',
+			},
+			{
+				displayName: 'Email Address',
+				name: 'emailAddress',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['persons'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The email address of the person',
+			},
+			{
+				displayName: 'Tenant ID',
+				name: 'tenantId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['persons'],
+						operation: ['createPerson'],
+					},
+				},
+				default: 1,
+				description: 'The ID of the tenant this person belongs to',
+			},
+			{
+				displayName: 'Azure Principal ID',
+				name: 'azurePrincipalId',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['persons'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The Azure Principal ID for the person (optional)',
+			},
+			{
+				displayName: 'Person ID',
+				name: 'personId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['persons'],
 						operation: ['deletePerson'],
 					},
 				},
