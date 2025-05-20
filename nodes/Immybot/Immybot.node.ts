@@ -1406,6 +1406,9 @@ export class Immybot implements INodeType {
 							request: {
 								method: 'GET',
 								url: '/computers/paged',
+								qs: {
+									filter: '={{ $parameter.enableEmailFilter ? $parameter.emailFilter : undefined }}',
+								},
 							},
 						},
 					},
@@ -1437,6 +1440,33 @@ export class Immybot implements INodeType {
 				},
 				default: '',
 				description: 'The user ID to filter computers by',
+			},
+			{
+				displayName: 'Enable Email Filter',
+				name: 'enableEmailFilter',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getAllComputerDetails'],
+					},
+				},
+				default: false,
+				description: 'Filter computers by email address',
+			},
+			{
+				displayName: 'Email Filter',
+				name: 'emailFilter',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getAllComputerDetails'],
+						enableEmailFilter: [true],
+					},
+				},
+				default: '',
+				description: 'The email address to filter computers by (e.g. testemail@test.com)',
 			},
 			{
 				displayName: 'Operation',
