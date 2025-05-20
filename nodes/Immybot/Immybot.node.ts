@@ -1399,7 +1399,7 @@ export class Immybot implements INodeType {
 					},
 					{
 						name: 'Get Computers Paged',
-						value: 'getAllComputerDetails',
+						value: 'getComputersPaged',
 						action: 'Get computers paged',
 						description: 'Retrieve all computer details (paged)',
 						routing: {
@@ -1448,7 +1448,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['computers'],
-						operation: ['getAllComputerDetails'],
+						operation: ['getComputersPaged'],
 					},
 				},
 				default: false,
@@ -1461,7 +1461,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['computers'],
-						operation: ['getAllComputerDetails'],
+						operation: ['getComputersPaged'],
 						enableEmailFilter: [true],
 					},
 				},
