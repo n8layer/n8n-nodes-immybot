@@ -41,7 +41,7 @@ This node supports the following operations:
 
 ### Computers
 - **Get Inventory**: Get all computer inventory
-- **Get Computers Paged**: Retrieve all computer details with optional filtering
+- **Get Computers Paged**: Retrieve computer details with optional filtering
 - **Get Agent Status**: Retrieve agent status for computers by user ID
 
 ### Tenants
