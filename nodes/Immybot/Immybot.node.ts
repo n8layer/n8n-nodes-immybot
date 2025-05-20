@@ -1443,26 +1443,12 @@ export class Immybot implements INodeType {
 			},
 			{
 				displayName: 'Filter',
-				name: 'enableFilter',
-				type: 'boolean',
-				displayOptions: {
-					show: {
-						resource: ['computers'],
-						operation: ['getComputersPaged'],
-					},
-				},
-				default: false,
-				description: 'Filter computers',
-			},
-			{
-				displayName: 'Filter',
 				name: 'filter',
 				type: 'string',
 				displayOptions: {
 					show: {
 						resource: ['computers'],
 						operation: ['getComputersPaged'],
-						enableFilter: [true],
 					},
 				},
 				default: '',
