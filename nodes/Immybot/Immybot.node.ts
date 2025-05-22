@@ -1095,6 +1095,18 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
+						name: 'Get Many',
+						value: 'getAll',
+						action: 'Get many tenants',
+						description: 'Get information about many tenants',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '={{ $parameter.tenantId ? `/tenants/${$parameter.tenantId}` : "/tenants" }}',
+							},
+						},
+					},
+					{
 						name: 'Update',
 						value: 'update',
 						action: 'Update a tenant',
@@ -1113,20 +1125,21 @@ export class Immybot implements INodeType {
 							},
 						},
 					},
-					{
-						name: 'Get Many',
-						value: 'getAll',
-						action: 'Get many tenants',
-						description: 'Get information about many tenants',
-						routing: {
-							request: {
-								method: 'GET',
-								url: '/tenants',
-							},
-						},
-					},
 				],
 				default: 'create',
+			},
+			{
+				displayName: 'Tenant ID',
+				name: 'tenantId',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['getAll'],
+					},
+				},
+				default: '',
+				description: 'Optional: The ID of a specific tenant to retrieve',
 			},
 			{
 				displayName: 'ID',
@@ -1208,73 +1221,6 @@ export class Immybot implements INodeType {
 				},
 				default: 1,
 				description: 'The ID of the owner tenant',
-			},
-			{
-				displayName: 'Name',
-				name: 'name',
-				type: 'string',
-				required: true,
-				displayOptions: {
-					show: {
-						resource: ['tenants'],
-						operation: ['create'],
-					},
-				},
-				default: '',
-				description: 'The name of the tenant',
-			},
-			{
-				displayName: 'Slug',
-				name: 'slug',
-				type: 'string',
-				displayOptions: {
-					show: {
-						resource: ['tenants'],
-						operation: ['create'],
-					},
-				},
-				default: '',
-				description: 'The slug (URL-friendly identifier) for the tenant',
-			},
-			{
-				displayName: 'Parent Tenant ID',
-				name: 'parentTenantId',
-				type: 'number',
-				displayOptions: {
-					show: {
-						resource: ['tenants'],
-						operation: ['create'],
-					},
-				},
-				default: undefined,
-				description: 'The ID of the parent tenant (optional)',
-			},
-			{
-				displayName: 'Is MSP',
-				name: 'isMsp',
-				type: 'boolean',
-				displayOptions: {
-					show: {
-						resource: ['tenants'],
-						operation: ['create'],
-					},
-				},
-				default: false,
-				description: 'Whether this tenant is a Managed Service Provider',
-			},
-			{
-				displayName: 'IDs',
-				name: 'ids',
-				type: 'string',
-				required: true,
-				displayOptions: {
-					show: {
-						resource: ['tenants'],
-						operation: ['bulkDelete'],
-					},
-				},
-				default: '[]',
-				description: 'Enter a JSON array of tenant IDs to delete (e.g. ["297", "298"])',
 			},
 			{
 				displayName: 'First Name',
@@ -1371,6 +1317,117 @@ export class Immybot implements INodeType {
 				},
 				default: true,
 				description: 'Whether the technician has management access',
+			},
+			{
+				displayName: 'IDs',
+				name: 'ids',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['bulkDelete'],
+					},
+				},
+				default: '[]',
+				description: 'Enter a JSON array of tenant IDs to delete (e.g. ["297", "298"])',
+			},
+			{
+				displayName: 'First Name',
+				name: 'firstName',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The first name of the person',
+			},
+			{
+				displayName: 'Last Name',
+				name: 'lastName',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The last name of the person',
+			},
+			{
+				displayName: 'Email Address',
+				name: 'emailAddress',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The email address of the person',
+			},
+			{
+				displayName: 'Tenant ID',
+				name: 'tenantId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: 1,
+				description: 'The ID of the tenant this person belongs to',
+			},
+			{
+				displayName: 'Azure Principal ID',
+				name: 'azurePrincipalId',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['createPerson'],
+					},
+				},
+				default: '',
+				description: 'The Azure Principal ID for the person (optional)',
+			},
+			{
+				displayName: 'Person ID',
+				name: 'personId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['deletePerson'],
+					},
+				},
+				default: '',
+				description: 'The ID of the person to delete',
+			},
+			{
+				displayName: 'Tenant ID',
+				name: 'tenantId',
+				type: 'number',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['getById'],
+					},
+				},
+				default: '',
+				description: 'The ID of the tenant to retrieve',
 			},
 			{
 				displayName: 'Operation',
