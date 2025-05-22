@@ -48,6 +48,7 @@ This node supports the following operations:
 - **Create**: Create a new tenant
 - **Update**: Update an existing tenant
 - **Get Many**: Get information about many tenants
+  - _Optional_: Filter by Tenant ID. If a Tenant ID is provided, only that tenant will be returned.
 - **Bulk Delete**: Delete multiple tenants at once
 
 ### Users
