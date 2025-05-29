@@ -1106,6 +1106,9 @@ export class Immybot implements INodeType {
 							request: {
 								method: 'GET',
 								url: '={{ $parameter.tenantId ? `/tenants/${$parameter.tenantId}` : "/tenants" }}',
+								qs: {
+									filters: '={{ $parameter.filters }}',
+								},
 							},
 						},
 					},
@@ -1143,6 +1146,19 @@ export class Immybot implements INodeType {
 				},
 				default: '',
 				description: 'Optional: The ID of a specific tenant to retrieve',
+			},
+			{
+				displayName: 'Filter (This Is Not A Plain Text Filter. Example: name==Example Company Inc.)',
+				name: 'filters',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['tenants'],
+						operation: ['getAll'],
+					},
+				},
+				default: '',
+				description: 'Filter tenants by name (optional)',
 			},
 			{
 				displayName: 'ID',
@@ -1417,20 +1433,6 @@ export class Immybot implements INodeType {
 				},
 				default: '',
 				description: 'The ID of the person to delete',
-			},
-			{
-				displayName: 'Tenant ID',
-				name: 'tenantId',
-				type: 'number',
-				required: true,
-				displayOptions: {
-					show: {
-						resource: ['tenants'],
-						operation: ['getById'],
-					},
-				},
-				default: '',
-				description: 'The ID of the tenant to retrieve',
 			},
 			{
 				displayName: 'Operation',
