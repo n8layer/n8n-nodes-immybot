@@ -116,6 +116,9 @@ export class Immybot implements INodeType {
 							request: {
 								method: 'GET',
 								url: '/tags',
+								qs: {
+									name: '={{ $parameter.filterName }}',
+								},
 							},
 						},
 					},
@@ -233,24 +236,24 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tags'],
-						operation: ['create'],
+						operation: ['create', 'update'],
 					},
 				},
 				default: '',
 				description: 'The name of the tag',
 			},
 			{
-				displayName: 'Name',
-				name: 'name',
+				displayName: 'Filter by Name',
+				name: 'filterName',
 				type: 'string',
 				displayOptions: {
 					show: {
 						resource: ['tags'],
-						operation: ['update'],
+						operation: ['get'],
 					},
 				},
 				default: '',
-				description: 'The name of the tag',
+				description: 'Filter tags by name (optional)',
 			},
 			{
 				displayName: 'Description',
