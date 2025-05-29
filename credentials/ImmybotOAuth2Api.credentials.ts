@@ -4,35 +4,22 @@ export class ImmybotOAuth2Api implements ICredentialType {
 	name = 'immybotOAuth2Api';
 	displayName = 'ImmyBot OAuth2 API';
 	documentationUrl = 'https://docs.immy.bot';
-	extends = ['oAuth2Api'];
 	properties: INodeProperties[] = [
 		{
-			displayName: 'Grant Type',
-			name: 'grantType',
-			type: 'hidden',
-			default: 'clientCredentials',
-		},
-		{
-			displayName: 'Access Token URL',
-			name: 'accessTokenUrl',
+			displayName: 'ImmyBot Subdomain',
+			name: 'subdomain',
 			type: 'string',
 			default: '',
 			required: true,
-			description: 'URL to get access token from. Example: https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token',
+			description: 'Your ImmyBot subdomain. For example, if your ImmyBot URL is https://my.immy.bot, your subdomain is my.',
 		},
 		{
-			displayName: 'Scope',
-			name: 'scope',
+			displayName: 'Tenant ID',
+			name: 'tenantId',
 			type: 'string',
 			default: '',
 			required: true,
-			description: 'Scope to request. Example: https://{subdomain}.immy.bot/.default',
-		},
-		{
-			displayName: 'Authentication',
-			name: 'authentication',
-			type: 'hidden',
-			default: 'body',
+			description: 'Your EntraID tenant ID',
 		},
 		{
 			displayName: 'Client ID',
@@ -40,7 +27,7 @@ export class ImmybotOAuth2Api implements ICredentialType {
 			type: 'string',
 			default: '',
 			required: true,
-			description: 'Your Azure AD application client ID',
+			description: 'Your EntraID application client ID',
 		},
 		{
 			displayName: 'Client Secret',
@@ -51,7 +38,7 @@ export class ImmybotOAuth2Api implements ICredentialType {
 			},
 			default: '',
 			required: true,
-			description: 'Your Azure AD application client secret',
+			description: 'Your EntraID application client secret',
 		},
 	];
 }
