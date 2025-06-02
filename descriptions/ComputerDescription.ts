@@ -56,6 +56,12 @@ export const computerOperations: INodeProperties[] = [
 		],
 		default: 'getInventory',
 	},
+];
+
+export const computerFields: INodeProperties[] = [
+	/* -------------------------------------------------------------------------- */
+	/*                                computer:getAgentStatus                               */
+	/* -------------------------------------------------------------------------- */
 	{
 		displayName: 'User ID',
 		name: 'userId',
