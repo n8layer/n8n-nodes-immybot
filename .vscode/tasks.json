@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-and-restart-n8n",
+            "type": "shell",
+            "command": "podman restart n8n-dev && podman logs n8n-dev -f",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
