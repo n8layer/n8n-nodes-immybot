@@ -45,8 +45,12 @@ This node supports the following operations:
 
 ### Computers
 - **Get Inventory**: Get all computer inventory
-- **Get Computers Paged**: Retrieve computer details with optional filtering
+- **Get Computers Paged**: Retrieve computer details with comprehensive filtering and pagination options
+  - Filter by criteria, tenant ID, and various computer states
+  - Pagination controls (skip, take, sort, sort direction)
+  - Boolean filters for onboarding, stale, dev lab, licensed, deleted, and offline computers
 - **Get Agent Status**: Retrieve agent status for computers by user ID
+- **Get User Affinities**: Retrieve user affinities for a specific computer by Computer ID
 
 ### Tenants
 - **Create**: Create a new tenant
