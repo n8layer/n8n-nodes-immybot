@@ -1550,7 +1550,18 @@ export class Immybot implements INodeType {
 								method: 'GET',
 								url: '/computers/paged',
 								qs: {
-									filter: '={{ $parameter.enableFilter ? $parameter.filter : undefined }}',
+									filter: '={{ $parameter.filter }}',
+									skip: '={{ $parameter.skip }}',
+									sort: '={{ $parameter.sort }}',
+									take: '={{ $parameter.take }}',
+									sortDesc: '={{ $parameter.sortDesc }}',
+									onboardingOnly: '={{ $parameter.onboardingOnly }}',
+									staleOnly: '={{ $parameter.staleOnly }}',
+									devLabOnly: '={{ $parameter.devLabOnly }}',
+									includeOffline: '={{ $parameter.includeOffline }}',
+									tenantId: '={{ $parameter.tenantId }}',
+									licensedOnly: '={{ $parameter.licensedOnly }}',
+									deletedOnly: '={{ $parameter.deletedOnly }}',
 								},
 							},
 						},
@@ -1564,6 +1575,21 @@ export class Immybot implements INodeType {
 							request: {
 								method: 'GET',
 								url: '/computers/agent-status',
+							},
+						},
+					},
+					{
+						name: 'Get User Affinities',
+						value: 'getUserAffinities',
+						action: 'Get user affinities',
+						description: 'Retrieve user affinities for computers',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/computers/user-affinities',
+								qs: {
+									computerId: '={{ $parameter.computerId }}',
+								},
 							},
 						},
 					},
@@ -1595,7 +1621,163 @@ export class Immybot implements INodeType {
 					},
 				},
 				default: '',
-				description: 'Filter computers by (e.g. testemail@test.com)',
+				description: 'Filter computers by criteria',
+			},
+			{
+				displayName: 'Skip',
+				name: 'skip',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: 0,
+				description: 'Number of records to skip for pagination',
+			},
+			{
+				displayName: 'Sort',
+				name: 'sort',
+				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: '',
+				description: 'Field to sort by',
+			},
+			{
+				displayName: 'Take',
+				name: 'take',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: 50,
+				description: 'Number of records to take (page size)',
+			},
+			{
+				displayName: 'Sort Descending',
+				name: 'sortDesc',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: true,
+				description: 'Whether to sort in descending order',
+			},
+			{
+				displayName: 'Onboarding Only',
+				name: 'onboardingOnly',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: false,
+				description: 'Whether to show only computers that are onboarding',
+			},
+			{
+				displayName: 'Stale Only',
+				name: 'staleOnly',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: false,
+				description: 'Whether to show only stale computers',
+			},
+			{
+				displayName: 'Dev Lab Only',
+				name: 'devLabOnly',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: false,
+				description: 'Whether to show only development lab computers',
+			},
+			{
+				displayName: 'Include Offline',
+				name: 'includeOffline',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: true,
+				description: 'Whether to include offline computers in results',
+			},
+			{
+				displayName: 'Tenant ID',
+				name: 'tenantId',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: '',
+				description: 'Filter by specific tenant ID',
+			},
+			{
+				displayName: 'Licensed Only',
+				name: 'licensedOnly',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: false,
+				description: 'Whether to show only licensed computers',
+			},
+			{
+				displayName: 'Deleted Only',
+				name: 'deletedOnly',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getComputersPaged'],
+					},
+				},
+				default: false,
+				description: 'Whether to show only deleted computers',
+			},
+			{
+				displayName: 'Computer ID',
+				name: 'computerId',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['computers'],
+						operation: ['getUserAffinities'],
+					},
+				},
+				default: '',
+				description: 'The ID of the computer to get user affinities for',
 			},
 			{
 				displayName: 'Operation',
