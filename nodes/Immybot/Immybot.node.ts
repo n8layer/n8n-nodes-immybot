@@ -168,6 +168,23 @@ export class Immybot implements INodeType {
 				},
 				options: [
 					{
+						name: 'Get Many Provider Links',
+						value: 'getMany',
+						action: 'Get many provider links',
+						description: 'Get all provider links with optional filters',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '={{ $parameter.id ? `/provider-links/${$parameter.id}` : "/provider-links" }}',
+								qs: {
+									includeClients: '={{ $parameter.id ? true : $parameter.includeClients }}',
+									includeUnlinkedClients: '={{ $parameter.id ? true : $parameter.includeUnlinkedClients }}',
+									throwIfAgentInstallerVersionNotSet: '={{ $parameter.id ? true : $parameter.throwIfAgentInstallerVersionNotSet }}',
+								},
+							},
+						},
+					},
+					{
 						name: 'Get Provisioning Package',
 						value: 'getProvisioningPackage',
 						action: 'Get provisioning package with onboarding',
@@ -208,6 +225,16 @@ export class Immybot implements INodeType {
 										isDevLab: '={{ $parameter.isDevLab }}',
 									},
 								},
+							},
+							output: {
+								postReceive: [
+									{
+										type: 'set',
+										properties: {
+											value: '={{ { "ppkg_url": $response.body } }}',
+										},
+									},
+								],
 							},
 						},
 					},
@@ -323,14 +350,67 @@ export class Immybot implements INodeType {
 				displayName: 'Provider Link ID',
 				name: 'id',
 				type: 'string',
+				displayOptions: {
+					show: {
+						resource: ['providerLinks'],
+						operation: ['getMany'],
+					},
+				},
+				default: '',
+				description: 'The ID of the provider link (optional). If filtering by ID, set all boolean values to true.',
+			},
+			{
+				displayName: 'Provider Link ID',
+				name: 'id',
+				type: 'string',
 				required: true,
 				displayOptions: {
 					show: {
 						resource: ['providerLinks'],
+						operation: ['getProvisioningPackage'],
 					},
 				},
 				default: '',
 				description: 'The ID of the provider link',
+			},
+			{
+				displayName: 'Include Clients',
+				name: 'includeClients',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['providerLinks'],
+						operation: ['getMany'],
+					},
+				},
+				default: false,
+				description: 'Whether to include clients in the response',
+			},
+			{
+				displayName: 'Include Unlinked Clients',
+				name: 'includeUnlinkedClients',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['providerLinks'],
+						operation: ['getMany'],
+					},
+				},
+				default: false,
+				description: 'Whether to include unlinked clients in the response',
+			},
+			{
+				displayName: 'Throw If Agent Installer Version Not Set',
+				name: 'throwIfAgentInstallerVersionNotSet',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						resource: ['providerLinks'],
+						operation: ['getMany'],
+					},
+				},
+				default: true,
+				description: 'Whether to throw an error if agent installer version is not set',
 			},
 			{
 				displayName: 'Target External Client ID',
@@ -1148,9 +1228,10 @@ export class Immybot implements INodeType {
 				description: 'Optional: The ID of a specific tenant to retrieve',
 			},
 			{
-				displayName: 'Filter (This Is Not A Plain Text Filter. Example: name==Example Company Inc.)',
+				displayName: 'Filter (Optional)',
 				name: 'filters',
 				type: 'string',
+				noDataExpression: false,
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
@@ -1158,7 +1239,7 @@ export class Immybot implements INodeType {
 					},
 				},
 				default: '',
-				description: 'Filter tenants by name (optional)',
+				description: 'Filter tenants by name. Example: (name==Example Company Inc.).',
 			},
 			{
 				displayName: 'ID',
@@ -1584,7 +1665,7 @@ export class Immybot implements INodeType {
 						routing: {
 							request: {
 								method: 'GET',
-								url: '/users',
+								url: '={{ $parameter.userId ? `/users/${$parameter.userId}` : "/users" }}',
 							},
 						},
 					},
@@ -1592,7 +1673,20 @@ export class Immybot implements INodeType {
 				default: 'getUsersList',
 			},
 			{
-				displayName: 'Person ID',
+				displayName: 'User ID (Optional)',
+				name: 'userId',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['users'],
+						operation: ['getUsersList'],
+					},
+				},
+				default: '',
+				description: 'The ID of the user to retrieve (optional)',
+			},
+			{
+				displayName: 'Person ID (Optional)',
 				name: 'userId',
 				type: 'number',
 				required: true,
@@ -1765,12 +1859,25 @@ export class Immybot implements INodeType {
 						routing: {
 							request: {
 								method: 'GET',
-								url: '/persons',
+								url: '={{ $parameter.personId ? `/persons/${$parameter.personId}` : "/persons" }}',
 							},
 						},
 					},
 				],
 				default: 'getPeople',
+			},
+			{
+				displayName: 'Person ID',
+				name: 'personId',
+				type: 'number',
+				displayOptions: {
+					show: {
+						resource: ['persons'],
+						operation: ['getPeople'],
+					},
+				},
+				default: '',
+				description: 'The ID of the person to retrieve (optional)',
 			},
 			{
 				displayName: 'First Name',
