@@ -28,7 +28,11 @@ This node supports the following operations:
 - **Update**: Update an existing tag by ID
 
 ### Provider Links
+- **Get Many Provider Links**: Get all provider links with optional filtering
+  - _Optional_: Filter by Provider Link ID. If an ID is provided, only that provider link will be returned.
+  - Boolean options for including clients, unlinked clients, and version validation
 - **Get Provisioning Package**: Get a provisioning package URI with onboarding options
+  - Returns structured JSON output with `ppkg_url` field instead of raw URL string
 
 ### Maintenance
 - **Run**: Run maintenance or software installation on specified computers with options for:
@@ -49,6 +53,7 @@ This node supports the following operations:
 - **Update**: Update an existing tenant
 - **Get Many**: Get information about many tenants
   - _Optional_: Filter by Tenant ID. If a Tenant ID is provided, only that tenant will be returned.
+  - Filter field supports both Fixed and Expression modes for dynamic filtering (e.g., `name==Example Company Inc.`)
 - **Bulk Delete**: Delete multiple tenants at once
 
 ### Users
@@ -56,11 +61,13 @@ This node supports the following operations:
 - **Update**: Update settings for an existing user
 - **Delete**: Delete a user by user ID
 - **Get Users**: Retrieve a list of users
+  - _Optional_: Filter by User ID. If a User ID is provided, only that user will be returned.
 
 ### Persons
 - **Create Person**: Create a new person
 - **Delete Person**: Delete a person by person ID
 - **Get People**: Retrieve a list of people
+  - _Optional_: Filter by Person ID. If a Person ID is provided, only that person will be returned.
 
 ## Credentials
 
