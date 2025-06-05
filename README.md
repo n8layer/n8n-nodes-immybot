@@ -23,14 +23,15 @@ This node supports the following operations:
 ### Tags
 - **Create**: Create a new tag
 - **Delete**: Delete a tag by ID
-- **Get**: Get all tags
-- **Get by ID**: Get a specific tag by its ID
+- **Get Many Tags**: Get all tags with optional name filtering
+- **Get Tag**: Get a specific tag by ID or name (flexible filtering)
 - **Update**: Update an existing tag by ID
 
 ### Provider Links
-- **Get Many Provider Links**: Get all provider links with optional filtering
-  - _Optional_: Filter by Provider Link ID. If an ID is provided, only that provider link will be returned.
+- **Get Many Provider Links**: Get all provider links with configurable boolean options
   - Boolean options for including clients, unlinked clients, and version validation
+- **Get Provider Link**: Get a specific provider link by ID
+  - Boolean values (includeClients, includeUnlinkedClients, throwIfAgentInstallerVersionNotSet) are automatically set to `true` for complete information
 - **Get Provisioning Package**: Get a provisioning package URI with onboarding options
   - Returns structured JSON output with `ppkg_url` field instead of raw URL string
 
@@ -54,24 +55,33 @@ This node supports the following operations:
 
 ### Tenants
 - **Create**: Create a new tenant
+- **Delete**: Delete multiple tenants at once (JSON array of tenant IDs)
+- **Get Many Tenants**: Get all tenants with optional name filtering
+- **Get Tenant**: Get a specific tenant by ID
 - **Update**: Update an existing tenant
-- **Get Many**: Get information about many tenants
-  - _Optional_: Filter by Tenant ID. If a Tenant ID is provided, only that tenant will be returned.
-  - Filter field supports both Fixed and Expression modes for dynamic filtering (e.g., `name==Example Company Inc.`)
-- **Bulk Delete**: Delete multiple tenants at once
 
 ### Users
-- **Create User From Person**: Create a new user from an existing person
-- **Update**: Update settings for an existing user
-- **Delete**: Delete a user by user ID
-- **Get Users**: Retrieve a list of users
-  - _Optional_: Filter by User ID. If a User ID is provided, only that user will be returned.
+- **Create User**: Create a new user from an existing person
+- **Delete a User**: Delete a user by user ID
+- **Get Many Users**: Get all users
+- **Get User**: Get a specific user by ID
+- **Update a User**: Update settings for an existing user
 
 ### Persons
 - **Create Person**: Create a new person
 - **Delete Person**: Delete a person by person ID
-- **Get People**: Retrieve a list of people
-  - _Optional_: Filter by Person ID. If a Person ID is provided, only that person will be returned.
+- **Get Many Persons**: Get all persons
+- **Get Person**: Get a specific person by ID
+
+## Interface Improvements
+
+This node features a clean, consistent interface with the following improvements:
+
+- **Consistent naming**: All resources follow the same "Get Many {Resource}" and "Get {Resource}" pattern
+- **Organized operations**: Each operation has a single, clear purpose
+- **Intuitive parameters**: Only relevant fields are shown based on the selected operation
+- **Flexible filtering**: Where applicable, operations support multiple filtering options
+- **Simplified workflows**: Reduced cognitive load with clear operation names and purposes
 
 ## Credentials
 
