@@ -108,29 +108,29 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Get',
-						value: 'get',
-						action: 'Get all tags',
+						name: 'Get Many Tags',
+						value: 'getManyTags',
+						action: 'Get many tags',
 						description: 'Get all tags',
 						routing: {
 							request: {
 								method: 'GET',
 								url: '/tags',
-								qs: {
-									name: '={{ $parameter.filterName }}',
-								},
 							},
 						},
 					},
 					{
-						name: 'Get by ID',
-						value: 'getById',
-						action: 'Get a tag by ID',
-						description: 'Get a specific tag by its ID',
+						name: 'Get Tag',
+						value: 'getTag',
+						action: 'Get a tag',
+						description: 'Get a specific tag by ID or name',
 						routing: {
 							request: {
 								method: 'GET',
-								url: '=/tags/{{ $parameter.id }}',
+								url: '={{ $parameter.filterType === "id" ? `/tags/${$parameter.id}` : "/tags" }}',
+								qs: {
+									name: '={{ $parameter.filterType === "name" ? $parameter.filterName : undefined }}',
+								},
 							},
 						},
 					},
@@ -152,7 +152,7 @@ export class Immybot implements INodeType {
 						},
 					},
 				],
-				default: 'get',
+				default: 'getManyTags',
 			},
 			{
 				displayName: 'Operation',
@@ -169,17 +169,34 @@ export class Immybot implements INodeType {
 				options: [
 					{
 						name: 'Get Many Provider Links',
-						value: 'getMany',
+						value: 'getManyProviderLinks',
 						action: 'Get many provider links',
 						description: 'Get all provider links with optional filters',
 						routing: {
 							request: {
 								method: 'GET',
-								url: '={{ $parameter.id ? `/provider-links/${$parameter.id}` : "/provider-links" }}',
+								url: '/provider-links',
 								qs: {
-									includeClients: '={{ $parameter.id ? true : $parameter.includeClients }}',
-									includeUnlinkedClients: '={{ $parameter.id ? true : $parameter.includeUnlinkedClients }}',
-									throwIfAgentInstallerVersionNotSet: '={{ $parameter.id ? true : $parameter.throwIfAgentInstallerVersionNotSet }}',
+									includeClients: '={{ $parameter.includeClients }}',
+									includeUnlinkedClients: '={{ $parameter.includeUnlinkedClients }}',
+									throwIfAgentInstallerVersionNotSet: '={{ $parameter.throwIfAgentInstallerVersionNotSet }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Get Provider Link',
+						value: 'getProviderLink',
+						action: 'Get a provider link',
+						description: 'Get a specific provider link by ID',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '=/provider-links/{{ $parameter.id }}',
+								qs: {
+									includeClients: true,
+									includeUnlinkedClients: true,
+									throwIfAgentInstallerVersionNotSet: true,
 								},
 							},
 						},
@@ -239,7 +256,30 @@ export class Immybot implements INodeType {
 						},
 					},
 				],
-				default: 'getProvisioningPackage',
+				default: 'getManyProviderLinks',
+			},
+			{
+				displayName: 'Filter Type',
+				name: 'filterType',
+				type: 'options',
+				displayOptions: {
+					show: {
+						resource: ['tags'],
+						operation: ['getTag'],
+					},
+				},
+				options: [
+					{
+						name: 'By ID',
+						value: 'id',
+					},
+					{
+						name: 'By Name',
+						value: 'name',
+					},
+				],
+				default: 'id',
+				description: 'Choose whether to filter by tag ID or name',
 			},
 			{
 				displayName: 'ID',
@@ -249,11 +289,41 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tags'],
-						operation: ['getById', 'update', 'delete'],
+						operation: ['getTag'],
+						filterType: ['id'],
 					},
 				},
 				default: '',
 				description: 'The ID of the tag',
+			},
+			{
+				displayName: 'ID',
+				name: 'id',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tags'],
+						operation: ['update', 'delete'],
+					},
+				},
+				default: '',
+				description: 'The ID of the tag',
+			},
+			{
+				displayName: 'Name',
+				name: 'filterName',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['tags'],
+						operation: ['getTag'],
+						filterType: ['name'],
+					},
+				},
+				default: '',
+				description: 'The name of the tag to filter by',
 			},
 			{
 				displayName: 'Name',
@@ -269,19 +339,7 @@ export class Immybot implements INodeType {
 				default: '',
 				description: 'The name of the tag',
 			},
-			{
-				displayName: 'Filter by Name',
-				name: 'filterName',
-				type: 'string',
-				displayOptions: {
-					show: {
-						resource: ['tags'],
-						operation: ['get'],
-					},
-				},
-				default: '',
-				description: 'Filter tags by name (optional)',
-			},
+
 			{
 				displayName: 'Description',
 				name: 'description',
@@ -350,14 +408,15 @@ export class Immybot implements INodeType {
 				displayName: 'Provider Link ID',
 				name: 'id',
 				type: 'string',
+				required: true,
 				displayOptions: {
 					show: {
 						resource: ['providerLinks'],
-						operation: ['getMany'],
+						operation: ['getProviderLink'],
 					},
 				},
 				default: '',
-				description: 'The ID of the provider link (optional). If filtering by ID, set all boolean values to true.',
+				description: 'The ID of the provider link to retrieve',
 			},
 			{
 				displayName: 'Provider Link ID',
@@ -380,7 +439,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['providerLinks'],
-						operation: ['getMany'],
+						operation: ['getManyProviderLinks'],
 					},
 				},
 				default: false,
@@ -393,7 +452,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['providerLinks'],
-						operation: ['getMany'],
+						operation: ['getManyProviderLinks'],
 					},
 				},
 				default: false,
@@ -406,7 +465,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['providerLinks'],
-						operation: ['getMany'],
+						operation: ['getManyProviderLinks'],
 					},
 				},
 				default: true,
@@ -1144,21 +1203,6 @@ export class Immybot implements INodeType {
 				},
 				options: [
 					{
-						name: 'Bulk Delete',
-						value: 'bulkDelete',
-						action: 'Bulk delete tenants',
-						description: 'Bulk delete tenants',
-						routing: {
-							request: {
-								method: 'POST',
-								url: '/tenants/bulk-delete',
-								body: {
-									ids: '={{ JSON.parse($parameter.ids) }}',
-								},
-							},
-						},
-					},
-					{
 						name: 'Create',
 						value: 'create',
 						action: 'Create a new tenant',
@@ -1178,17 +1222,44 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Get Many',
-						value: 'getAll',
+						name: 'Delete',
+						value: 'delete',
+						action: 'Delete tenants',
+						description: 'Delete tenants',
+						routing: {
+							request: {
+								method: 'POST',
+								url: '/tenants/bulk-delete',
+								body: {
+									ids: '={{ JSON.parse($parameter.ids) }}',
+								},
+							},
+						},
+					},
+					{
+						name: 'Get Many Tenants',
+						value: 'getManyTenants',
 						action: 'Get many tenants',
-						description: 'Get information about many tenants',
+						description: 'Get all tenants with optional name filtering',
 						routing: {
 							request: {
 								method: 'GET',
-								url: '={{ $parameter.tenantId ? `/tenants/${$parameter.tenantId}` : "/tenants" }}',
+								url: '/tenants',
 								qs: {
 									filters: '={{ $parameter.filters }}',
 								},
+							},
+						},
+					},
+					{
+						name: 'Get Tenant',
+						value: 'getTenant',
+						action: 'Get a tenant',
+						description: 'Get a specific tenant by ID',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '=/tenants/{{ $parameter.tenantId }}',
 							},
 						},
 					},
@@ -1212,34 +1283,35 @@ export class Immybot implements INodeType {
 						},
 					},
 				],
-				default: 'create',
+				default: 'getManyTenants',
 			},
 			{
 				displayName: 'Tenant ID',
 				name: 'tenantId',
 				type: 'number',
+				required: true,
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['getAll'],
+						operation: ['getTenant'],
 					},
 				},
 				default: '',
-				description: 'Optional: The ID of a specific tenant to retrieve',
+				description: 'The ID of the tenant to retrieve',
 			},
 			{
-				displayName: 'Filter (Optional)',
+				displayName: 'Name Filter (Optional)',
 				name: 'filters',
 				type: 'string',
 				noDataExpression: false,
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['getAll'],
+						operation: ['getManyTenants'],
 					},
 				},
 				default: '',
-				description: 'Filter tenants by name. Example: (name==Example Company Inc.).',
+				description: 'Filter tenants by name. Example: (name==Example Company Inc.). Leave empty to get all tenants.',
 			},
 			{
 				displayName: 'ID',
@@ -1426,7 +1498,7 @@ export class Immybot implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['tenants'],
-						operation: ['bulkDelete'],
+						operation: ['delete'],
 					},
 				},
 				default: '[]',
@@ -1793,9 +1865,9 @@ export class Immybot implements INodeType {
 				},
 				options: [
 					{
-						name: 'Create User From Person',
+						name: 'Create User',
 						value: 'createFromPerson',
-						action: 'Create a user from a person',
+						action: 'Create a new user',
 						description: 'Create a new user from an existing person',
 						routing: {
 							request: {
@@ -1805,6 +1877,42 @@ export class Immybot implements INodeType {
 									personId: '={{ $parameter.personId }}',
 									hasManagementAccess: '={{ $parameter.hasManagementAccess }}',
 								},
+							},
+						},
+					},
+					{
+						name: 'Delete a User',
+						value: 'deleteTechnician',
+						action: 'Delete a user',
+						description: 'Delete a user by user ID',
+						routing: {
+							request: {
+								method: 'DELETE',
+								url: '=/users/{{ $parameter.userId }}',
+							},
+						},
+					},
+					{
+						name: 'Get Many Users',
+						value: 'getManyUsers',
+						action: 'Get many users',
+						description: 'Retrieve a list of all users',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '/users',
+							},
+						},
+					},
+					{
+						name: 'Get User',
+						value: 'getUser',
+						action: 'Get a user',
+						description: 'Get a specific user by ID',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '=/users/{{ $parameter.userId }}',
 							},
 						},
 					},
@@ -1827,45 +1935,22 @@ export class Immybot implements INodeType {
 							},
 						},
 					},
-					{
-						name: 'Delete a User',
-						value: 'deleteTechnician',
-						action: 'Delete a user',
-						description: 'Delete a user by user ID',
-						routing: {
-							request: {
-								method: 'DELETE',
-								url: '=/users/{{ $parameter.userId }}',
-							},
-						},
-					},
-					{
-						name: 'Get Users',
-						value: 'getUsersList',
-						action: 'Get users',
-						description: 'Retrieve a list of users',
-						routing: {
-							request: {
-								method: 'GET',
-								url: '={{ $parameter.userId ? `/users/${$parameter.userId}` : "/users" }}',
-							},
-						},
-					},
 				],
-				default: 'getUsersList',
+				default: 'getManyUsers',
 			},
 			{
-				displayName: 'User ID (Optional)',
+				displayName: 'User ID',
 				name: 'userId',
 				type: 'number',
+				required: true,
 				displayOptions: {
 					show: {
 						resource: ['users'],
-						operation: ['getUsersList'],
+						operation: ['getUser'],
 					},
 				},
 				default: '',
-				description: 'The ID of the user to retrieve (optional)',
+				description: 'The ID of the user to retrieve',
 			},
 			{
 				displayName: 'Person ID (Optional)',
@@ -2034,32 +2119,45 @@ export class Immybot implements INodeType {
 						},
 					},
 					{
-						name: 'Get People',
-						value: 'getPeople',
-						action: 'Get people',
-						description: 'Retrieve a list of people',
+						name: 'Get Many Persons',
+						value: 'getPersons',
+						action: 'Get many persons',
+						description: 'Retrieve a list of all persons',
 						routing: {
 							request: {
 								method: 'GET',
-								url: '={{ $parameter.personId ? `/persons/${$parameter.personId}` : "/persons" }}',
+								url: '/persons',
+							},
+						},
+					},
+					{
+						name: 'Get Person',
+						value: 'getPersonById',
+						action: 'Get a person',
+						description: 'Retrieve a specific person by their ID',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '=/persons/{{ $parameter.personId }}',
 							},
 						},
 					},
 				],
-				default: 'getPeople',
+				default: 'getPersons',
 			},
 			{
 				displayName: 'Person ID',
 				name: 'personId',
 				type: 'number',
+				required: true,
 				displayOptions: {
 					show: {
 						resource: ['persons'],
-						operation: ['getPeople'],
+						operation: ['getPersonById'],
 					},
 				},
 				default: '',
-				description: 'The ID of the person to retrieve (optional)',
+				description: 'The ID of the person to retrieve',
 			},
 			{
 				displayName: 'First Name',
