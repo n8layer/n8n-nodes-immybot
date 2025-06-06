@@ -51,8 +51,8 @@ export const providerLinkOperations: INodeProperties[] = [
 			{
 				name: 'Get Provisioning Package',
 				value: 'getProvisioningPackage',
-				action: 'Get provisioning package with onboarding',
-				description: 'Get a provisioning package URI with onboarding options',
+				action: 'Get provisioning package',
+				description: 'Get a provisioning package URI',
 				routing: {
 					request: {
 						method: 'POST',
