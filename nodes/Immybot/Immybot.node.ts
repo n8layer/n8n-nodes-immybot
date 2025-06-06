@@ -21,7 +21,7 @@ export class Immybot implements INodeType {
 			},
 		],
 		requestDefaults: {
-			baseURL: '={{ "https://" + $credentials.scope.split("https://")[1].split(".")[0] + ".immy.bot/api/v1" }}',
+			baseURL: '={{ "https://" + $credentials.subdomain + ".immy.bot/api/v1" }}',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
