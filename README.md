@@ -29,11 +29,26 @@ This node supports the following operations:
 
 ### Provider Links
 - **Get Many Provider Links**: Get all provider links with configurable boolean options
-  - Boolean options for including clients, unlinked clients, and version validation
+  - Include Clients: Whether to include client information in the response
+  - Include Unlinked Clients: Whether to include clients not linked to tenants
+  - Throw If Agent Installer Version Not Set: Whether to throw an error if agent installer version is not set
 - **Get Provider Link**: Get a specific provider link by ID
-  - Boolean values (includeClients, includeUnlinkedClients, throwIfAgentInstallerVersionNotSet) are automatically set to `true` for complete information
-- **Get Provisioning Package**: Get a provisioning package URI with onboarding options
-  - Returns structured JSON output with `ppkg_url` field instead of raw URL string
+  - Automatically includes complete information (clients, unlinked clients, version validation)
+- **Get Provisioning Package**: Generate a provisioning package URI with comprehensive configuration options
+  - **Package Options**: Extensive customization for provisioning packages
+    - Package encryption with optional password protection
+    - ISO download capability
+    - Wireless network configuration (SSID, key, open networks)
+    - Local administrator account setup with customizable credentials
+    - System optimization settings (Clean PC, hibernation control)
+  - **Onboarding Options**: Advanced automated onboarding configuration
+    - Automatic onboarding with customizable reboot preferences (If Necessary, Force, Suppress, Prompt)
+    - Timeout handling with configurable actions (Reboot, Suppress, Fail Session)
+    - Auto-consent to reboots and timeout duration control (1-60 minutes)
+    - Follow-up email notifications
+    - Person and tag assignment (primary person, additional persons, tag IDs)
+    - Development lab environment support
+  - Returns structured JSON output with `ppkg_url` field containing the provisioning package URI
 
 ### Maintenance
 - **Run**: Run maintenance or software installation on specified computers with options for:
