@@ -24,8 +24,11 @@ export class ImmybotOAuth2Api implements ICredentialType {
 		{
 			displayName: 'Access Token URL',
 			name: 'accessTokenUrl',
-			type: 'hidden',
-			default: '={{ "https://login.microsoftonline.com/" + $credentials.tenantId + "/oauth2/v2.0/token" }}',
+			type: 'string',
+			default: '',
+			required: true,
+			placeholder: 'https://login.microsoftonline.com/YOUR_TENANT_ID/oauth2/v2.0/token',
+			description: 'Enter the full Azure AD OAuth2 token endpoint URL. Replace YOUR_TENANT_ID with your actual tenant ID from above.',
 		},
 		{
 			displayName: 'ImmyBot Subdomain',
@@ -39,8 +42,11 @@ export class ImmybotOAuth2Api implements ICredentialType {
 		{
 			displayName: 'Scope',
 			name: 'scope',
-			type: 'hidden',
-			default: '={{ "https://" + $credentials.subdomain + ".immy.bot/.default" }}',
+			type: 'string',
+			default: '',
+			required: true,
+			placeholder: 'https://yourcompany.immy.bot/.default',
+			description: 'Enter the OAuth2 scope URL. Replace "yourcompany" with your ImmyBot subdomain from above.',
 		},
 		{
 			displayName: 'Authentication',
