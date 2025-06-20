@@ -14,6 +14,7 @@ export class Immybot implements INodeType {
 		defaults: {
 			name: 'ImmyBot',
 		},
+		usableAsTool: true,
 		inputs: ['main'] as NodeConnectionType[],
 		outputs: ['main'] as NodeConnectionType[],
 		credentials: [
