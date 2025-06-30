@@ -24,6 +24,17 @@ export const computerOperations: INodeProperties[] = [
 						method: 'GET',
 						url: '/computers/inventory',
 					},
+					output: {
+						postReceive: [
+							{
+								type: 'rootProperty',
+								properties: {
+									property: 'data',
+								},
+								enabled: '={{ $parameter.returnIndividualItems === true }}',
+							},
+						],
+					},
 				},
 			},
 			{
@@ -49,6 +60,17 @@ export const computerOperations: INodeProperties[] = [
 							licensedOnly: '={{ $parameter.licensedOnly }}',
 							deletedOnly: '={{ $parameter.deletedOnly }}',
 						},
+					},
+					output: {
+						postReceive: [
+							{
+								type: 'rootProperty',
+								properties: {
+									property: 'results',
+								},
+								enabled: '={{ $parameter.returnIndividualItems === true }}',
+							},
+						],
 					},
 				},
 			},
@@ -254,6 +276,19 @@ export const computerFields: INodeProperties[] = [
 		},
 		default: false,
 		description: 'Whether to show only deleted computers',
+	},
+	{
+		displayName: 'Return Individual Items',
+		name: 'returnIndividualItems',
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				resource: ['computers'],
+				operation: ['getInventory', 'getComputersPaged'],
+			},
+		},
+		default: true,
+		description: 'Whether to return each item individually instead of grouped in an array. When enabled, each computer/inventory item becomes a separate output item.',
 	},
 	{
 		displayName: 'Computer ID',

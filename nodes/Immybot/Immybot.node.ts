@@ -1,4 +1,8 @@
-import type { INodeType, INodeTypeDescription, NodeConnectionType } from 'n8n-workflow';
+import type {
+	INodeType,
+	INodeTypeDescription,
+	NodeConnectionType,
+} from 'n8n-workflow';
 
 import { resourceOptions, operations, fields } from './descriptions';
 
