@@ -138,7 +138,7 @@ To use this node, you'll need to set up an Entra App Registration and configure 
 
 ## Compatibility
 
-This node is compatible with n8n version 1.0.0 and above.
+This node is compatible with n8n version 1.97.1 and above.
 
 ## Resources
 
