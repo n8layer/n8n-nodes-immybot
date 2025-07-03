@@ -109,34 +109,6 @@ export const providerLinkOperations: INodeProperties[] = [
 
 export const providerLinkFields: INodeProperties[] = [
 	{
-		displayName: 'Provider Link ID',
-		name: 'id',
-		type: 'string',
-		required: true,
-		displayOptions: {
-			show: {
-				resource: ['providerLinks'],
-				operation: ['getProviderLink'],
-			},
-		},
-		default: '',
-		description: 'The ID of the provider link to retrieve',
-	},
-	{
-		displayName: 'Provider Link ID',
-		name: 'id',
-		type: 'string',
-		required: true,
-		displayOptions: {
-			show: {
-				resource: ['providerLinks'],
-				operation: ['getProvisioningPackage'],
-			},
-		},
-		default: '',
-		description: 'The ID of the provider link',
-	},
-	{
 		displayName: 'Include Clients',
 		name: 'includeClients',
 		type: 'boolean',
@@ -161,167 +133,6 @@ export const providerLinkFields: INodeProperties[] = [
 		},
 		default: false,
 		description: 'Whether to include unlinked clients in the response',
-	},
-	{
-		displayName: 'Throw If Agent Installer Version Not Set',
-		name: 'throwIfAgentInstallerVersionNotSet',
-		type: 'boolean',
-		displayOptions: {
-			show: {
-				resource: ['providerLinks'],
-				operation: ['getManyProviderLinks'],
-			},
-		},
-		default: true,
-		description: 'Whether to throw an error if agent installer version is not set',
-	},
-	{
-		displayName: 'Target External Client ID',
-		name: 'targetExternalClientId',
-		type: 'string',
-		required: true,
-		displayOptions: {
-			show: {
-				resource: ['providerLinks'],
-				operation: ['getProvisioningPackage'],
-			},
-		},
-		default: '',
-		description: 'The external client ID to target',
-	},
-	{
-		displayName: 'Package Options',
-		name: 'ppkgOptions',
-		type: 'collection',
-		displayOptions: {
-			show: {
-				resource: ['providerLinks'],
-				operation: ['getProvisioningPackage'],
-			},
-		},
-		default: {},
-		options: [
-			{
-				displayName: 'Encrypt Package',
-				name: 'encryptPackage',
-				type: 'boolean',
-				default: false,
-			},
-			{
-				displayName: 'Package Password',
-				name: 'packagePassword',
-				type: 'string',
-				typeOptions: {
-					password: true,
-				},
-				displayOptions: {
-					show: {
-						encryptPackage: [true],
-					},
-				},
-				default: '',
-			},
-			{
-				displayName: 'Download ISO',
-				name: 'downloadISO',
-				type: 'boolean',
-				default: false,
-			},
-			{
-				displayName: 'Wireless Open',
-				name: 'wirelessOpen',
-				type: 'boolean',
-				displayOptions: {
-					show: {
-						setupWireless: [true],
-					},
-				},
-				default: false,
-			},
-			{
-				displayName: 'Wireless SSID',
-				name: 'wirelessSSID',
-				type: 'string',
-				displayOptions: {
-					show: {
-						setupWireless: [true],
-					},
-				},
-				default: '',
-			},
-			{
-				displayName: 'Wireless Key',
-				name: 'wirelessKey',
-				type: 'string',
-				displayOptions: {
-					show: {
-						setupWireless: [true],
-						wirelessOpen: [false],
-					},
-				},
-				default: '',
-			},
-			{
-				displayName: 'Setup Admin',
-				name: 'setupAdmin',
-				type: 'boolean',
-				default: true,
-			},
-			{
-				displayName: 'Local Admin Username',
-				name: 'localAdminUsername',
-				type: 'string',
-				displayOptions: {
-					show: {
-						setupAdmin: [true],
-					},
-				},
-				default: 'Administrator',
-			},
-			{
-				displayName: 'Local Admin Password',
-				name: 'localAdminPassword',
-				type: 'string',
-				typeOptions: {
-					password: true,
-				},
-				displayOptions: {
-					show: {
-						setupAdmin: [true],
-					},
-				},
-				default: 'AVeryGoodPassword',
-			},
-			{
-				displayName: 'Hide Admin Account',
-				name: 'hideAdminAccount',
-				type: 'boolean',
-				displayOptions: {
-					show: {
-						setupAdmin: [true],
-					},
-				},
-				default: false,
-			},
-			{
-				displayName: 'Enable Clean PC',
-				name: 'enableCleanPC',
-				type: 'boolean',
-				default: false,
-			},
-			{
-				displayName: 'Disable Hibernation',
-				name: 'disableHibernation',
-				type: 'boolean',
-				default: true,
-			},
-			{
-				displayName: 'Setup Wireless',
-				name: 'setupWireless',
-				type: 'boolean',
-				default: true,
-			},
-		],
 	},
 	{
 		displayName: 'Onboarding Options',
@@ -465,5 +276,180 @@ export const providerLinkFields: INodeProperties[] = [
 				default: false,
 			},
 		],
+	},
+	{
+		displayName: 'Package Options',
+		name: 'ppkgOptions',
+		type: 'collection',
+		displayOptions: {
+			show: {
+				resource: ['providerLinks'],
+				operation: ['getProvisioningPackage'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Encrypt Package',
+				name: 'encryptPackage',
+				type: 'boolean',
+				default: false,
+			},
+			{
+				displayName: 'Package Password',
+				name: 'packagePassword',
+				type: 'string',
+				typeOptions: {
+					password: true,
+				},
+				displayOptions: {
+					show: {
+						encryptPackage: [true],
+					},
+				},
+				default: '',
+			},
+			{
+				displayName: 'Download ISO',
+				name: 'downloadISO',
+				type: 'boolean',
+				default: false,
+			},
+			{
+				displayName: 'Wireless Open',
+				name: 'wirelessOpen',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						setupWireless: [true],
+					},
+				},
+				default: false,
+			},
+			{
+				displayName: 'Wireless SSID',
+				name: 'wirelessSSID',
+				type: 'string',
+				displayOptions: {
+					show: {
+						setupWireless: [true],
+					},
+				},
+				default: '',
+			},
+			{
+				displayName: 'Wireless Key',
+				name: 'wirelessKey',
+				type: 'string',
+				displayOptions: {
+					show: {
+						setupWireless: [true],
+						wirelessOpen: [false],
+					},
+				},
+				default: '',
+			},
+			{
+				displayName: 'Setup Admin',
+				name: 'setupAdmin',
+				type: 'boolean',
+				default: true,
+			},
+			{
+				displayName: 'Local Admin Username',
+				name: 'localAdminUsername',
+				type: 'string',
+				displayOptions: {
+					show: {
+						setupAdmin: [true],
+					},
+				},
+				default: 'Administrator',
+			},
+			{
+				displayName: 'Local Admin Password',
+				name: 'localAdminPassword',
+				type: 'string',
+				typeOptions: {
+					password: true,
+				},
+				displayOptions: {
+					show: {
+						setupAdmin: [true],
+					},
+				},
+				default: 'AVeryGoodPassword',
+			},
+			{
+				displayName: 'Hide Admin Account',
+				name: 'hideAdminAccount',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						setupAdmin: [true],
+					},
+				},
+				default: false,
+			},
+			{
+				displayName: 'Enable Clean PC',
+				name: 'enableCleanPC',
+				type: 'boolean',
+				default: false,
+			},
+			{
+				displayName: 'Disable Hibernation',
+				name: 'disableHibernation',
+				type: 'boolean',
+				default: true,
+			},
+			{
+				displayName: 'Setup Wireless',
+				name: 'setupWireless',
+				type: 'boolean',
+				default: true,
+			},
+		],
+	},
+	{
+		displayName: 'Provider Link ID',
+		name: 'id',
+		type: 'string',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['providerLinks'],
+				operation: ['getProvisioningPackage', 'getProviderLink'],
+			},
+		},
+		default: '',
+		description: 'The ID of the provider link',
+	},
+	{
+		displayName: 'Target External Client ID',
+		name: 'targetExternalClientId',
+		type: 'string',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['providerLinks'],
+				operation: ['getProvisioningPackage'],
+			},
+		},
+		default: '',
+		description: 'The external client ID to target',
+	},
+	{
+		displayName: 'Throw If Agent Installer Version Not Set',
+		name: 'throwIfAgentInstallerVersionNotSet',
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				resource: ['providerLinks'],
+				operation: ['getManyProviderLinks'],
+			},
+		},
+		default: true,
+		description: 'Whether to throw an error if agent installer version is not set',
 	},
 ];
