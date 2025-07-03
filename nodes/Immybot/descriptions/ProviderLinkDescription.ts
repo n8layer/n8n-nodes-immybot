@@ -290,10 +290,53 @@ export const providerLinkFields: INodeProperties[] = [
 		default: {},
 		options: [
 			{
+				displayName: 'Disable Hibernation',
+				name: 'disableHibernation',
+				type: 'boolean',
+				default: true,
+			},
+			{
+				displayName: 'Download ISO',
+				name: 'downloadISO',
+				type: 'boolean',
+				default: false,
+			},
+			{
+				displayName: 'Enable Clean PC',
+				name: 'enableCleanPC',
+				type: 'boolean',
+				default: false,
+			},
+			{
 				displayName: 'Encrypt Package',
 				name: 'encryptPackage',
 				type: 'boolean',
 				default: false,
+			},
+			{
+				displayName: 'Hide Admin Account',
+				name: 'hideAdminAccount',
+				type: 'boolean',
+				displayOptions: {
+					show: {
+						setupAdmin: [true],
+					},
+				},
+				default: false,
+			},
+			{
+				displayName: 'Local Admin Password',
+				name: 'localAdminPassword',
+				type: 'string',
+				typeOptions: {
+					password: true,
+				},
+				displayOptions: {
+					show: {
+						setupAdmin: [true],
+					},
+				},
+				default: 'AVeryGoodPassword',
 			},
 			{
 				displayName: 'Package Password',
@@ -310,10 +353,39 @@ export const providerLinkFields: INodeProperties[] = [
 				default: '',
 			},
 			{
-				displayName: 'Download ISO',
-				name: 'downloadISO',
+				displayName: 'Local Admin Username',
+				name: 'localAdminUsername',
+				type: 'string',
+				displayOptions: {
+					show: {
+						setupAdmin: [true],
+					},
+				},
+				default: 'Administrator',
+			},
+			{
+				displayName: 'Setup Admin',
+				name: 'setupAdmin',
 				type: 'boolean',
-				default: false,
+				default: true,
+			},
+			{
+				displayName: 'Setup Wireless',
+				name: 'setupWireless',
+				type: 'boolean',
+				default: true,
+			},
+			{
+				displayName: 'Wireless Key',
+				name: 'wirelessKey',
+				type: 'string',
+				displayOptions: {
+					show: {
+						setupWireless: [true],
+						wirelessOpen: [false],
+					},
+				},
+				default: '',
 			},
 			{
 				displayName: 'Wireless Open',
@@ -336,78 +408,6 @@ export const providerLinkFields: INodeProperties[] = [
 					},
 				},
 				default: '',
-			},
-			{
-				displayName: 'Wireless Key',
-				name: 'wirelessKey',
-				type: 'string',
-				displayOptions: {
-					show: {
-						setupWireless: [true],
-						wirelessOpen: [false],
-					},
-				},
-				default: '',
-			},
-			{
-				displayName: 'Setup Admin',
-				name: 'setupAdmin',
-				type: 'boolean',
-				default: true,
-			},
-			{
-				displayName: 'Local Admin Username',
-				name: 'localAdminUsername',
-				type: 'string',
-				displayOptions: {
-					show: {
-						setupAdmin: [true],
-					},
-				},
-				default: 'Administrator',
-			},
-			{
-				displayName: 'Local Admin Password',
-				name: 'localAdminPassword',
-				type: 'string',
-				typeOptions: {
-					password: true,
-				},
-				displayOptions: {
-					show: {
-						setupAdmin: [true],
-					},
-				},
-				default: 'AVeryGoodPassword',
-			},
-			{
-				displayName: 'Hide Admin Account',
-				name: 'hideAdminAccount',
-				type: 'boolean',
-				displayOptions: {
-					show: {
-						setupAdmin: [true],
-					},
-				},
-				default: false,
-			},
-			{
-				displayName: 'Enable Clean PC',
-				name: 'enableCleanPC',
-				type: 'boolean',
-				default: false,
-			},
-			{
-				displayName: 'Disable Hibernation',
-				name: 'disableHibernation',
-				type: 'boolean',
-				default: true,
-			},
-			{
-				displayName: 'Setup Wireless',
-				name: 'setupWireless',
-				type: 'boolean',
-				default: true,
 			},
 		],
 	},
