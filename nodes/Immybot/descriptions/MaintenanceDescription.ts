@@ -75,209 +75,6 @@ export const maintenanceOperations: INodeProperties[] = [
 
 export const maintenanceFields: INodeProperties[] = [
 	{
-		displayName: 'Maintenance Parameters',
-		name: 'maintenanceParams',
-		type: 'collection',
-		displayOptions: {
-			show: {
-				resource: ['maintenance'],
-				operation: ['run'],
-			},
-		},
-		default: {},
-		options: [
-			{
-				displayName: 'Session Group ID',
-				name: 'sessionGroupId',
-				type: 'string',
-				default: '',
-				description: 'The session group ID for the maintenance task',
-			},
-			{
-				displayName: 'Maintenance Identifier',
-				name: 'maintenanceIdentifier',
-				type: 'string',
-				default: '',
-				description: 'The identifier for the maintenance task',
-			},
-			{
-				displayName: 'Task Mode',
-				name: 'maintenanceTaskMode',
-				type: 'options',
-				options: [
-					{
-						name: 'Enforce',
-						value: 0,
-					},
-					{
-						name: 'Audit',
-						value: 1,
-					},
-					{
-						name: 'Monitor',
-						value: 2,
-					},
-					{
-						name: 'Ignore',
-						value: 3,
-					},
-				],
-				default: 0,
-				description: 'The mode of the maintenance task',
-			},
-			{
-				displayName: 'Maintenance Type',
-				name: 'maintenanceType',
-				type: 'number',
-				default: 0,
-				description: 'The type of maintenance to perform',
-			},
-			{
-				displayName: 'Repair',
-				name: 'repair',
-				type: 'boolean',
-				default: false,
-				description: 'Whether to repair the software',
-			},
-			{
-				displayName: 'Software Should Be',
-				name: 'desiredSoftwareState',
-				type: 'options',
-				options: [
-					{
-						name: 'Installed - Latest Version',
-						value: 5,
-					},
-					{
-						name: 'Installed - Any Version',
-						value: 2,
-					},
-					{
-						name: 'Update if Found',
-						value: 7,
-					},
-					{
-						name: 'Uninstalled',
-						value: 1,
-					},
-					{
-						name: 'Ignored',
-						value: 6,
-					},
-				],
-				default: 5,
-				description: 'The desired state of the software',
-			},
-			{
-				displayName: 'Task Parameter Values',
-				name: 'taskParameterValues',
-				type: 'json',
-				default: '{}',
-				description: 'JSON object containing task parameter values',
-			},
-		],
-	},
-	{
-		displayName: 'Execution Options',
-		name: 'executionOptions',
-		type: 'collection',
-		displayOptions: {
-			show: {
-				resource: ['maintenance'],
-				operation: ['run'],
-			},
-		},
-		default: {},
-		options: [
-			{
-				displayName: 'Skip Background Job',
-				name: 'skipBackgroundJob',
-				type: 'boolean',
-				default: true,
-			},
-			{
-				displayName: 'Cache Only',
-				name: 'cacheOnly',
-				type: 'boolean',
-				default: false,
-			},
-			{
-				displayName: 'Reboot Preference',
-				name: 'rebootPreference',
-				type: 'options',
-				options: [
-					{
-						name: 'If Necessary',
-						value: 0,
-					},
-					{
-						name: 'Force',
-						value: -1,
-					},
-					{
-						name: 'Suppress',
-						value: 1,
-					},
-					{
-						name: 'Prompt',
-						value: 2,
-					},
-				],
-				default: 1,
-			},
-			{
-				displayName: 'Prompt Timeout Action',
-				name: 'promptTimeoutAction',
-				type: 'options',
-				options: [
-					{
-						name: 'Reboot',
-						value: 0,
-					},
-					{
-						name: 'Suppress',
-						value: 1,
-					},
-					{
-						name: 'Fail Session',
-						value: 2,
-					},
-				],
-				default: 1,
-			},
-			{
-				displayName: 'Auto Consent to Reboots',
-				name: 'autoConsentToReboots',
-				type: 'boolean',
-				default: false,
-			},
-			{
-				displayName: 'Prompt Timeout Minutes',
-				name: 'promptTimeoutMinutes',
-				type: 'number',
-				typeOptions: {
-					minValue: 1,
-					maxValue: 60,
-				},
-				default: 5,
-			},
-			{
-				displayName: 'Update Time',
-				name: 'updateTime',
-				type: 'string',
-				default: '',
-				description: 'Time to schedule the execution (24-hour format, e.g. "02:00")',
-			},
-			{
-				displayName: 'Time Zone',
-				name: 'timeZoneInfoId',
-				type: 'string',
-				default: '',
-				description: 'Time zone for the scheduled execution (e.g. "America/Detroit")',
-			},
-		],
-	},
-	{
 		displayName: 'Deployment Options',
 		name: 'deploymentOptions',
 		type: 'collection',
@@ -365,8 +162,8 @@ export const maintenanceFields: INodeProperties[] = [
 		],
 	},
 	{
-		displayName: 'UI Options',
-		name: 'uiOptions',
+		displayName: 'Execution Options',
+		name: 'executionOptions',
 		type: 'collection',
 		displayOptions: {
 			show: {
@@ -377,22 +174,193 @@ export const maintenanceFields: INodeProperties[] = [
 		default: {},
 		options: [
 			{
-				displayName: 'Show Run Now Button',
-				name: 'showRunNowButton',
+				displayName: 'Auto Consent to Reboots',
+				name: 'autoConsentToReboots',
 				type: 'boolean',
 				default: false,
 			},
 			{
-				displayName: 'Show Postpone Button',
-				name: 'showPostponeButton',
+				displayName: 'Cache Only',
+				name: 'cacheOnly',
 				type: 'boolean',
 				default: false,
 			},
 			{
-				displayName: 'Show Maintenance Actions',
-				name: 'showMaintenanceActions',
+				displayName: 'Prompt Timeout Action',
+				name: 'promptTimeoutAction',
+				type: 'options',
+				options: [
+					{
+						name: 'Reboot',
+						value: 0,
+					},
+					{
+						name: 'Suppress',
+						value: 1,
+					},
+					{
+						name: 'Fail Session',
+						value: 2,
+					},
+				],
+				default: 1,
+			},
+			{
+				displayName: 'Prompt Timeout Minutes',
+				name: 'promptTimeoutMinutes',
+				type: 'number',
+				typeOptions: {
+					minValue: 1,
+					maxValue: 60,
+				},
+				default: 5,
+			},
+			{
+				displayName: 'Reboot Preference',
+				name: 'rebootPreference',
+				type: 'options',
+				options: [
+					{
+						name: 'If Necessary',
+						value: 0,
+					},
+					{
+						name: 'Force',
+						value: -1,
+					},
+					{
+						name: 'Suppress',
+						value: 1,
+					},
+					{
+						name: 'Prompt',
+						value: 2,
+					},
+				],
+				default: 1,
+			},
+			{
+				displayName: 'Skip Background Job',
+				name: 'skipBackgroundJob',
+				type: 'boolean',
+				default: true,
+			},
+			{
+				displayName: 'Time Zone',
+				name: 'timeZoneInfoId',
+				type: 'string',
+				default: '',
+				description: 'Time zone for the scheduled execution (e.g. "America/Detroit")',
+			},
+			{
+				displayName: 'Update Time',
+				name: 'updateTime',
+				type: 'string',
+				default: '',
+				description: 'Time to schedule the execution (24-hour format, e.g. "02:00")',
+			},
+		],
+	},
+	{
+		displayName: 'Maintenance Parameters',
+		name: 'maintenanceParams',
+		type: 'collection',
+		displayOptions: {
+			show: {
+				resource: ['maintenance'],
+				operation: ['run'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Maintenance Identifier',
+				name: 'maintenanceIdentifier',
+				type: 'string',
+				default: '',
+				description: 'The identifier for the maintenance task',
+			},
+			{
+				displayName: 'Maintenance Type',
+				name: 'maintenanceType',
+				type: 'number',
+				default: 0,
+				description: 'The type of maintenance to perform',
+			},
+			{
+				displayName: 'Repair',
+				name: 'repair',
 				type: 'boolean',
 				default: false,
+				description: 'Whether to repair the software',
+			},
+			{
+				displayName: 'Session Group ID',
+				name: 'sessionGroupId',
+				type: 'string',
+				default: '',
+				description: 'The session group ID for the maintenance task',
+			},
+			{
+				displayName: 'Software Should Be',
+				name: 'desiredSoftwareState',
+				type: 'options',
+				options: [
+					{
+						name: 'Installed - Latest Version',
+						value: 5,
+					},
+					{
+						name: 'Installed - Any Version',
+						value: 2,
+					},
+					{
+						name: 'Update if Found',
+						value: 7,
+					},
+					{
+						name: 'Uninstalled',
+						value: 1,
+					},
+					{
+						name: 'Ignored',
+						value: 6,
+					},
+				],
+				default: 5,
+				description: 'The desired state of the software',
+			},
+			{
+				displayName: 'Task Mode',
+				name: 'maintenanceTaskMode',
+				type: 'options',
+				options: [
+					{
+						name: 'Enforce',
+						value: 0,
+					},
+					{
+						name: 'Audit',
+						value: 1,
+					},
+					{
+						name: 'Monitor',
+						value: 2,
+					},
+					{
+						name: 'Ignore',
+						value: 3,
+					},
+				],
+				default: 0,
+				description: 'The mode of the maintenance task',
+			},
+			{
+				displayName: 'Task Parameter Values',
+				name: 'taskParameterValues',
+				type: 'json',
+				default: '{}',
+				description: 'JSON object containing task parameter values',
 			},
 		],
 	},
@@ -428,6 +396,38 @@ export const maintenanceFields: INodeProperties[] = [
 				type: 'json',
 				default: '[]',
 				description: 'Array of person IDs',
+			},
+		],
+	},
+	{
+		displayName: 'UI Options',
+		name: 'uiOptions',
+		type: 'collection',
+		displayOptions: {
+			show: {
+				resource: ['maintenance'],
+				operation: ['run'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Show Run Now Button',
+				name: 'showRunNowButton',
+				type: 'boolean',
+				default: false,
+			},
+			{
+				displayName: 'Show Postpone Button',
+				name: 'showPostponeButton',
+				type: 'boolean',
+				default: false,
+			},
+			{
+				displayName: 'Show Maintenance Actions',
+				name: 'showMaintenanceActions',
+				type: 'boolean',
+				default: false,
 			},
 		],
 	},
