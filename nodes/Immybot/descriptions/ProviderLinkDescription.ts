@@ -85,7 +85,7 @@ export const providerLinkOperations: INodeProperties[] = [
 								onboardingSessionSendFollowUpEmail: '={{ $parameter.onboardingSessionSendFollowUpEmail }}',
 								primaryPersonId: '={{ $parameter.primaryPersonId }}',
 								additionalPersonIds: '={{ $parameter.additionalPersonIds }}',
-								tags: '={{ $parameter.tags }}',
+								tags: '={{ $parameter.tags ? $parameter.tags.split(",").map(t => t.trim()).filter(t => t) : [] }}',
 								isDevLab: '={{ $parameter.isDevLab }}',
 							},
 						},
@@ -155,7 +155,7 @@ export const providerLinkFields: INodeProperties[] = [
 			{
 				displayName: 'Onboarding Correlation ID',
 				name: 'onboardingCorrelationId',
-				type: 'hidden',
+				type: 'string',
 				default: '',
 			},
 			{
@@ -267,7 +267,7 @@ export const providerLinkFields: INodeProperties[] = [
 				name: 'tags',
 				type: 'string',
 				default: '',
-				description: 'Comma-separated list of tag IDs',
+				description: 'Comma-separated list of tag IDs (e.g. 123,456,789)',
 			},
 			{
 				displayName: 'Is Dev Lab',
