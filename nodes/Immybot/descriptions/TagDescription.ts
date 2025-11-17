@@ -27,6 +27,9 @@ export const tagOperations: INodeProperties[] = [
 							name: '={{ $parameter.name }}',
 							description: '={{ $parameter.description }}',
 							color: '={{ $parameter.color }}',
+							ownerTenantId: '={{ $parameter.ownerTenantId }}',
+							authorizedViewerTenants: '={{ JSON.parse($parameter.authorizedViewerTenants || "[]") }}',
+							visibleToAllTenants: '={{ $parameter.visibleToAllTenants }}',
 						},
 					},
 				},
@@ -237,5 +240,45 @@ export const tagFields: INodeProperties[] = [
 		],
 		default: 'primary',
 		description: 'The color of the tag',
+	},
+	{
+		displayName: 'Owner Tenant ID',
+		name: 'ownerTenantId',
+		type: 'number',
+		displayOptions: {
+			show: {
+				resource: ['tags'],
+				operation: ['create'],
+			},
+		},
+		default: 0,
+		description: 'The ID of the tenant that owns this tag',
+	},
+	{
+		displayName: 'Authorized Viewer Tenants',
+		name: 'authorizedViewerTenants',
+		type: 'json',
+		displayOptions: {
+			show: {
+				resource: ['tags'],
+				operation: ['create'],
+			},
+		},
+		default: '[]',
+		description: 'Array of tenant IDs authorized to view this tag',
+		placeholder: '[0]',
+	},
+	{
+		displayName: 'Visible to All Tenants',
+		name: 'visibleToAllTenants',
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				resource: ['tags'],
+				operation: ['create'],
+			},
+		},
+		default: true,
+		description: 'Whether this tag is visible to all tenants',
 	},
 ];
